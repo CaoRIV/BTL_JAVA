@@ -27,10 +27,10 @@ public class RaceGame extends JFrame { //Class chính
     // Định nghĩa kích thước và vị trí đường đua
     private static final int GAME_WIDTH = 900;
     private static final int GAME_HEIGHT = 800;
-    private static final int TRACK_WIDTH = 700; // Chiều rộng của đường đua theo yêu cầu
+    private static final int TRACK_WIDTH = 700;
     private static final int ROAD_LEFT = (GAME_WIDTH - TRACK_WIDTH) / 2;
-    private static final int ROAD_WIDTH = 500; // Phần xám của đường (nhỏ hơn TRACK_WIDTH)
-    private static final int SIDEWALK_WIDTH = 100; // Chiều rộng vỉa hè mỗi bên
+    private static final int ROAD_WIDTH = 500;
+    private static final int SIDEWALK_WIDTH = 100;
 
     public RaceGame() {
         setTitle("RACEGAME_QT02");
