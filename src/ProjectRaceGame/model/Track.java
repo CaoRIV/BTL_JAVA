@@ -13,18 +13,21 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.File;
 
-
-public class Track { //Class làn đường đi
+//Track: manages obstacle generation, movement, and rendering within the game area.
+public class Track {
     private ArrayList<Obstacle> obstacles;
     private int speed;
-    private int gameHeight;  // Lưu GAME_HEIGHT
+    private int gameHeight;
 
+    //Constructs a Track object.
     public Track(int gameHeight) {
         obstacles = new ArrayList<>();
         generateObstacles();
         speed = 3;
         this.gameHeight = gameHeight;  // Gán GAME_HEIGHT vào Track
     }
+
+    //Creates a new obstacle positioned safely above the visible area in a random lane, ensuring no collision with existing obstacles.
     public Obstacle createSafeObstacle() {
         Random rand = new Random();
         int lanes = 6; // Số làn đường
@@ -59,6 +62,8 @@ public class Track { //Class làn đường đi
 
         return newObstacle;
     }
+
+    //Clears existing obstacles and generates an initial set.
     public void generateObstacles() {
         obstacles.clear(); // Xóa tất cả chướng ngại vật cũ
         // Tạo một số lượng chướng ngại vật ban đầu
@@ -68,11 +73,12 @@ public class Track { //Class làn đường đi
         }
     }
 
-    // Thêm phương thức để thêm chướng ngại vật mới khi cần
+    //Adds a single new obstacle to the track using safe placement logic.
     public void addNewObstacle() {
         obstacles.add(createSafeObstacle());
     }
-    // Di chuyển các chướng ngại vật xuống dưới
+
+    //Moves all obstacles downward by a fixed amount each tick.
     public void moveObstacles() {
         // Di chuyển tất cả chướng ngại vật xuống
         for (int i = obstacles.size() - 1; i >= 0; i--) {
@@ -85,12 +91,15 @@ public class Track { //Class làn đường đi
             }
         }
     }
+
+    //Renders all obstacles onto the provided Graphics context.
     public void draw(Graphics g) {
         for (Obstacle obs : obstacles) {
             obs.draw(g);
         }
     }
 
+    //Returns the current list of active obstacles for collision detection.
     public ArrayList<Obstacle> getObstacles() {
         return obstacles;
     }

@@ -13,8 +13,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.File;
-
-public class RaceGame extends JFrame { //Class chính
+// Main class: manages the game window and overall game flow
+public class RaceGame extends JFrame {
     private Car car;
     private Track track;
     private Timer timer;
@@ -24,7 +24,7 @@ public class RaceGame extends JFrame { //Class chính
     private GamePanel gamePanel;
     private ScorePanel scorePanel;
 
-    // Định nghĩa kích thước và vị trí đường đua
+    // Constants defining window and track dimensions
     private static final int GAME_WIDTH = 900;
     private static final int GAME_HEIGHT = 800;
     private static final int TRACK_WIDTH = 700;
@@ -32,6 +32,8 @@ public class RaceGame extends JFrame { //Class chính
     private static final int ROAD_WIDTH = 500;
     private static final int SIDEWALK_WIDTH = 100;
 
+    //Constructor: initializes the main window, game objects, UI panels,
+    //keyboard listener, and starts the game loop timer.
     public RaceGame() {
         setTitle("RACEGAME_QT02");
         setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -73,7 +75,6 @@ public class RaceGame extends JFrame { //Class chính
             @Override
             public void keyPressed(KeyEvent e) {
                 if (gameOver) return;  // Không xử lý phím khi game đã kết thúc
-
                 int keyCode = e.getKeyCode();
                 if (keyCode == KeyEvent.VK_LEFT) {
                     car.moveLeft();
@@ -90,6 +91,7 @@ public class RaceGame extends JFrame { //Class chính
         timer.start();
     }
 
+    //updateGame(): called by the Timer on each tick.
     public void updateGame() {
         if (gameOver) return;  // Nếu game kết thúc, không xử lý thêm gì
 
@@ -118,7 +120,7 @@ public class RaceGame extends JFrame { //Class chính
         repaint();  // Cập nhật lại màn hình
     }
 
-    // Reset game khi nhấn nút "Start Again"
+    // restartGame(): resets the game state to allow a new play session.
     public void restartGame() {
         // Đặt xe ở giữa đường đua
         int carX = GAME_WIDTH / 2 - 25;
@@ -140,6 +142,8 @@ public class RaceGame extends JFrame { //Class chính
         gamePanel.requestFocusInWindow();
         repaint();
     }
+
+    // main(): the application entry point.
     public static void main(String[] args) {
             SwingUtilities.invokeLater(() -> {
             RaceGame game = new RaceGame();

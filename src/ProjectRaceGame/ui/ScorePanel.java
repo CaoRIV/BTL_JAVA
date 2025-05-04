@@ -1,21 +1,21 @@
 package ProjectRaceGame.ui;
 import javax.swing.*;
 import java.awt.*;
-
-public class ScorePanel extends JPanel {// Class Điểm
+// ScorePanel Class
+public class ScorePanel extends JPanel {
     private int score;
-
+// Constructor
     public ScorePanel() {
         this.score = 0;
         setPreferredSize(new Dimension(200, 800));
         setBackground(Color.LIGHT_GRAY);
     }
-
+// Method setScore
     public void setScore(int score) {
         this.score = score;
         repaint();
     }
-
+// Method paintComponent
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

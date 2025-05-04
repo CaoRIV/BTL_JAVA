@@ -2,11 +2,13 @@ package ProjectRaceGame.model;
 
 import java.awt.*;
 
-public class Car { // class xe để chơi
-        private int x, y;  // Vị trí của xe
+//Car: represents the player-controlled vehicle.
+//Manages position, movement boundaries, rendering, and collision detection.
+public class Car {
+        private int x, y;
         private int width, height;
-        private long lastTime;  // Lưu thời gian trước khi cập nhật điểm
-
+        private long lastTime;
+//Constructs a new Car at the specified position.
 public Car(int x, int y) {
     this.x = x;
     this.y = y;
@@ -14,21 +16,21 @@ public Car(int x, int y) {
     this.height = 80;
     this.lastTime = System.currentTimeMillis();  // Khởi tạo thời gian ban đầu
 }
-
+//Moves the car 10 pixels to the left, if within track boundaries.
 public void moveLeft() {
     // Giới hạn xe trong phạm vi đường đua (điều chỉnh nếu cần theo ảnh đường đua của bạn)
     if (x > 75) {
         x -= 10;  // Di chuyển sang trái
     }
 }
-
+//Moves the car 10 pixels to the right, if within track boundaries.
 public void moveRight() {
     // Giới hạn xe trong phạm vi đường đua (điều chỉnh nếu cần theo ảnh đường đua của bạn)
     if (x + width < 700 - 75) {
         x += 10;  // Di chuyển sang phải
     }
 }
-
+//Renders the car on the provided Graphics context.
 public void draw(Graphics g) {
     // Vẽ thân xe
     g.setColor(Color.RED);
@@ -56,7 +58,7 @@ public void draw(Graphics g) {
     g.fillRect(x + 35, y + height , 10, 4); // Đèn sau phải
 }
 
-// Kiểm tra va chạm với chướng ngại vật
+//Checks if this car collides with a given obstacle using AABB.
 public boolean checkCollision(Obstacle obstacle) {
     return x < obstacle.getX() + obstacle.getWidth() &&
             x + width > obstacle.getX() &&
@@ -64,16 +66,17 @@ public boolean checkCollision(Obstacle obstacle) {
             y + height > obstacle.getY();
 }
 
-// Getter và Setter cho lastTime (thời gian)
+// Returns the timestamp of the last score update.
 public long getLastTime() {
     return lastTime;
 }
 
+//Sets the timestamp for the last score update.
 public void setLastTime(long lastTime) {
     this.lastTime = lastTime;
 }
 
-// Getter cho y (để tính điểm)
+//Returns the current y-coordinate of the car, used for scoring logic.
 public int getY() {
     return y;
   }

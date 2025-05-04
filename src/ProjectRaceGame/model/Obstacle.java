@@ -2,12 +2,14 @@ package ProjectRaceGame.model;
 import java.awt.*;
 import java.util.Random;
 
-
+//Obstacle: represents an oncoming obstacle vehicle.
+//Handles its position, appearance, movement, and collision bounds.
 public class Obstacle { //Class Chướng ngạt vật
     private int x, y;
     private int width, height;
     private Color color;
 
+    //Constructs a new Obstacle at the specified coordinates.
     public Obstacle(int x, int y) {
         this.x = x;
         this.y = y;
@@ -25,6 +27,8 @@ public class Obstacle { //Class Chướng ngạt vật
             default: this.color = Color.CYAN; break;
         }
     }
+
+    //Determines whether this obstacle intersects another obstacle.
     public boolean intersects(Obstacle other) {
         // Kiểm tra xem hai hình chữ nhật có giao nhau không
         return this.x < other.x + other.width &&
@@ -33,10 +37,12 @@ public class Obstacle { //Class Chướng ngạt vật
                 this.y + this.height > other.y;
     }
 
+    //Moves the obstacle downward by a specified speed (pixels per tick).
     public void moveDown(int speed) {
         y += speed;  // Di chuyển chướng ngại vật xuống dưới
     }
 
+    //Renders the obstacle onto the provided Graphics context.
     public void draw(Graphics g) {
         // Vẽ thân xe chướng ngại vật
         g.setColor(color);
@@ -56,18 +62,19 @@ public class Obstacle { //Class Chướng ngạt vật
         g.fillRect(x + 50, y + 55, 5, 15);
     }
 
+    //Returns the current x-coordinate of the obstacle.
     public int getX() {
         return x;
     }
-
+    //Returns the current y-coordinate of the obstacle.
     public int getY() {
         return y;
     }
-
+    //Returns the width of the obstacle.
     public int getWidth() {
         return width;
     }
-
+    //Returns the height of the obstacle.
     public int getHeight() {
         return height;
     }

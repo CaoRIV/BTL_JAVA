@@ -8,10 +8,13 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/*MainMenu: displays the startup screen with a background image (or gradient)
+ * and a "START GAME" button. Launches the RaceGame on button click.*/
 public class MainMenu extends JFrame {
     private Image backgroundImage;
     private JButton startButton;
 
+    //Constructor: initializes the JFrame (title, size, close operation)
     public MainMenu() {
         // Set up the frame
         setTitle("Race Game - Main Menu");
@@ -97,6 +100,7 @@ public class MainMenu extends JFrame {
         add(menuPanel, BorderLayout.CENTER);
     }
 
+    //startGame(): closes the menu frame and starts the RaceGame on the EDT
     private void startGame() {
         // Close the menu
         dispose();
@@ -108,6 +112,7 @@ public class MainMenu extends JFrame {
         });
     }
 
+    //main(): the entry point that launches the MainMenu on the Swing EDT.
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MainMenu menu = new MainMenu();

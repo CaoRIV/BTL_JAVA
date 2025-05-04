@@ -7,15 +7,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import java.io.File;
-
-public class GamePanel extends JPanel { // Class Không Gian Game
-    private BufferedImage trackImage;  // Biến để lưu ảnh đường đua
+/* GamePanel: the main drawing canvas for the racing game.
+ * It handles rendering the scrolling track, obstacles, the player car,
+ * and the Game Over overlay .*/
+public class GamePanel extends JPanel {
+    private BufferedImage trackImage;
     private int trackScrollY = 0;
-    private Track track;  // Biến để tham chiếu đến Track
-    private Car car;      // Biến để tham chiếu đến Car
-    private boolean gameOver;  // Biến để theo dõi trạng thái game
+    private Track track;
+    private Car car;
+    private boolean gameOver;
 
-    // Cập nhật constructor để nhận Track, Car và gameOver từ RaceGame
+    //Constructs a new GamePanel.
     public GamePanel(Track track, Car car, boolean gameOver) {
         this.track = track;  // Lưu đối tượng track vào biến của GamePanel
         this.car = car;      // Lưu đối tượng car vào biến của GamePanel
@@ -45,6 +47,7 @@ public class GamePanel extends JPanel { // Class Không Gian Game
         }
     }
 
+    //paintComponent: renders the entire game frame.
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -61,11 +64,7 @@ public class GamePanel extends JPanel { // Class Không Gian Game
             // Vẽ ảnh đường đua hai lần để tạo hiệu ứng cuộn liên tục
             g.drawImage(trackImage, 0, trackScrollY - trackImage.getHeight(), getWidth(), trackImage.getHeight(), null);
             g.drawImage(trackImage, 0, trackScrollY, getWidth(), trackImage.getHeight(), null);
-        } else {
-            // Nếu không tìm thấy ảnh, vẽ đường đua mặc định
-            drawDefaultTrack(g);
         }
-
         // Vẽ các đối tượng game lên màn hình
         track.draw(g);  // Vẽ chướng ngại vật
         car.draw(g);  // Vẽ chiếc xe
@@ -81,34 +80,18 @@ public class GamePanel extends JPanel { // Class Không Gian Game
             g.drawString(message, x, y);
         }
     }
+
+    //setGameOver: updates the gameOver flag and repaints the panel to show or hide the Game Over overlay.
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
         repaint();
     }
 
+    //updateComponents: refreshes the panel’s references to the Track, Car, and gameOver state, then triggers a repaint.
     public void updateComponents(Track track, Car car, boolean gameOver) {
         this.track = track;
         this.car = car;
         this.gameOver = gameOver;
         repaint();
-    }
-
-    // Phương thức vẽ đường đua mặc định trong trường hợp không tìm thấy ảnh
-    private void drawDefaultTrack(Graphics g) {
-        // Vẽ nền xám cho đường đua
-        g.setColor(Color.DARK_GRAY);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        // Vẽ vạch kẻ đường trắng ở giữa
-        g.setColor(Color.WHITE);
-        int centerX = getWidth() / 2;
-        for (int y = -50 + trackScrollY % 100; y < getHeight(); y += 100) {
-            g.fillRect(centerX - 5, y, 10, 50);
-        }
-
-        // Vẽ vỉa hè hai bên
-        g.setColor(Color.GREEN);
-        g.fillRect(0, 0, 50, getHeight());
-        g.fillRect(getWidth() - 50, 0, 50, getHeight());
     }
 }
