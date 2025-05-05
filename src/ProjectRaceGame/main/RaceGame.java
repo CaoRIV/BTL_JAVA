@@ -43,86 +43,79 @@ public class RaceGame extends JFrame {
         ImageIcon image = new ImageIcon("src/ProjectRaceGame/ui/racelogo.jpeg");
         setIconImage(image.getImage());
 
-        // Khởi tạo các đối tượng game
-        // Đặt xe ở giữa đường đua
-        int carX = GAME_WIDTH / 2 - 25; // 50 là chiều rộng của xe, đặt ở giữa màn hình
+
+        int carX = GAME_WIDTH / 2 - 25;
         car = new Car(carX, 650);
         track = new Track(GAME_HEIGHT);;
         gameOver = false;
         score = 0;
 
-        // Tạo layout
         setLayout(new BorderLayout());
 
-        // Tạo và thêm ScorePanel vào JFrame
         scorePanel = new ScorePanel();
-        add(scorePanel, BorderLayout.WEST);  // Thêm ScorePanel vào bên trái
+        add(scorePanel, BorderLayout.WEST);
 
-        // Tạo và thêm GamePanel vào JFrame
+
         gamePanel = new GamePanel(track, car, gameOver);
-        add(gamePanel, BorderLayout.CENTER);  // Thêm GamePanel vào trung tâm
+        add(gamePanel, BorderLayout.CENTER);
 
-        // Tạo nút "Start Again" khi game over
+
         restartButton = new JButton("Start Again");
         restartButton.addActionListener(e -> restartGame());  // Xử lý khi nhấn nút
-        restartButton.setVisible(false);  // Ẩn nút khi game chưa kết thúc
+        restartButton.setVisible(false);
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(restartButton);
-        add(buttonPanel, BorderLayout.SOUTH);  // Thêm nút vào phía dưới
+        add(buttonPanel, BorderLayout.SOUTH);
 
-        // Thêm xử lý phím cho GamePanel
+
         gamePanel.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (gameOver) return;  // Không xử lý phím khi game đã kết thúc
+                if (gameOver) return;
                 int keyCode = e.getKeyCode();
                 if (keyCode == KeyEvent.VK_LEFT) {
                     car.moveLeft();
                 } else if (keyCode == KeyEvent.VK_RIGHT) {
                     car.moveRight();
                 }
-                repaint();  // Cập nhật lại màn hình
+                repaint();
             }
         });
-        gamePanel.setFocusable(true);  // Đảm bảo gamePanel có thể nhận sự kiện bàn phím
+        gamePanel.setFocusable(true);
 
-        // Tạo một Timer để cập nhật vị trí chướng ngại vật và vẽ lại màn hình
-        timer = new Timer(10, e -> updateGame());  // Cập nhật mỗi 10ms
+        timer = new Timer(10, e -> updateGame());
         timer.start();
     }
 
     //updateGame(): called by the Timer on each tick.
     public void updateGame() {
-        if (gameOver) return;  // Nếu game kết thúc, không xử lý thêm gì
+        if (gameOver) return;
 
-        track.moveObstacles();  // Di chuyển chướng ngại vật
+        track.moveObstacles();
 
-        // Cập nhật điểm số (dựa trên thời gian)
         long currentTime = System.currentTimeMillis();
-        if (currentTime - car.getLastTime() >= 1000) {  // Cập nhật mỗi 1 giây
-            score += 1;  // Cộng thêm 1 điểm mỗi giây
-            car.setLastTime(currentTime);  // Cập nhật thời gian
-            scorePanel.setScore(score);  // Cập nhật điểm vào ScorePanel
+        if (currentTime - car.getLastTime() >= 1000) {
+            score += 1;
+            car.setLastTime(currentTime);
+            scorePanel.setScore(score);
         }
 
-        // Kiểm tra va chạm
         for (Obstacle obs : track.getObstacles()) {
             if (car.checkCollision(obs)) {
-                gameOver = true;  // Nếu va chạm, game over
+                gameOver = true;
                 gamePanel.setGameOver(true);
-                timer.stop();  // Dừng Timer
-                restartButton.setVisible(true);  // Hiển thị nút "Start Again"
-                repaint();  // Cập nhật màn hình để hiển thị Game Over
+                timer.stop();
+                restartButton.setVisible(true);
+                repaint();
                 return;
             }
         }
 
-        repaint();  // Cập nhật lại màn hình
+        repaint();
     }
 
     // restartGame(): resets the game state to allow a new play session.
     public void restartGame() {
-        // Đặt xe ở giữa đường đua
         int carX = GAME_WIDTH / 2 - 25;
         car = new Car(carX, 650);
         track = new Track(GAME_HEIGHT);
@@ -131,10 +124,8 @@ public class RaceGame extends JFrame {
         scorePanel.setScore(score);
         gameOver = false;
         restartButton.setVisible(false);
-        // Cập nhật GamePanel thay vì tạo mới
         gamePanel.updateComponents(track, car, gameOver);
 
-        // Không cần thêm KeyListener mới
 
         // Revalidate và repaint để đảm bảo UI được cập nhật đúng
         revalidate();

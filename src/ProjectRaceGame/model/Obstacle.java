@@ -4,7 +4,7 @@ import java.util.Random;
 
 //Obstacle: represents an oncoming obstacle vehicle.
 //Handles its position, appearance, movement, and collision bounds.
-public class Obstacle { //Class Chướng ngạt vật
+public class Obstacle {
     private int x, y;
     private int width, height;
     private Color color;
@@ -16,7 +16,6 @@ public class Obstacle { //Class Chướng ngạt vật
         this.width = 50;
         this.height = 70;
 
-        // Màu ngẫu nhiên cho xe chướng ngại vật
         Random rand = new Random();
         int colorChoice = rand.nextInt(5);
         switch(colorChoice) {
@@ -30,7 +29,6 @@ public class Obstacle { //Class Chướng ngạt vật
 
     //Determines whether this obstacle intersects another obstacle.
     public boolean intersects(Obstacle other) {
-        // Kiểm tra xem hai hình chữ nhật có giao nhau không
         return this.x < other.x + other.width &&
                 this.x + this.width > other.x &&
                 this.y < other.y + other.height &&
@@ -39,12 +37,11 @@ public class Obstacle { //Class Chướng ngạt vật
 
     //Moves the obstacle downward by a specified speed (pixels per tick).
     public void moveDown(int speed) {
-        y += speed;  // Di chuyển chướng ngại vật xuống dưới
+        y += speed;
     }
 
     //Renders the obstacle onto the provided Graphics context.
     public void draw(Graphics g) {
-        // Vẽ thân xe chướng ngại vật
         g.setColor(color);
         g.fillRect(x, y, width, height);
 

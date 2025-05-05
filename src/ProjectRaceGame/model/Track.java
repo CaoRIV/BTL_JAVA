@@ -24,50 +24,44 @@ public class Track {
         obstacles = new ArrayList<>();
         generateObstacles();
         speed = 3;
-        this.gameHeight = gameHeight;  // Gán GAME_HEIGHT vào Track
+        this.gameHeight = gameHeight;
     }
 
     //Creates a new obstacle positioned safely above the visible area in a random lane, ensuring no collision with existing obstacles.
     public Obstacle createSafeObstacle() {
         Random rand = new Random();
-        int lanes = 6; // Số làn đường
-        int laneWidth = 100; // Chiều rộng của mỗi làn đường
-        int startX = 75 ; // Vị trí bắt đầu của làn đường đầu tiên
+        int lanes = 6;
+        int laneWidth = 100;
+        int startX = 75 ;
         int attempts = 0;
         Obstacle newObstacle;
         do {
-            // Chọn làn đường ngẫu nhiên
             int lane = rand.nextInt(lanes);
             int x = startX + lane * laneWidth;
-            // Tạo chướng ngại vật ở vị trí cao hơn màn hình (âm)
-            int y = -100 - rand.nextInt(200); // Random trong khoảng từ -300 đến -100
+            int y = -100 - rand.nextInt(200);
             newObstacle = new Obstacle(x, y);
-            // Kiểm tra xem có va chạm với chướng ngại vật nào đã tồn tại không
             boolean collisionFound = false;
             for (Obstacle existingObs : obstacles) {
-                // Thêm khoảng cách an toàn (ví dụ 100px)
                 if (newObstacle.intersects(existingObs) ||
                         Math.abs(newObstacle.getY() - existingObs.getY()) < 100) {
                     collisionFound = true;
                     break;
                 }
             }
-            // Nếu không có va chạm, thoát khỏi vòng lặp
             if (!collisionFound) {
                 break;
             }
 
             attempts++;
-        } while (attempts < 10); // Giới hạn số lần thử để tránh vòng lặp vô hạn
+        } while (attempts < 10);
 
         return newObstacle;
     }
 
     //Clears existing obstacles and generates an initial set.
     public void generateObstacles() {
-        obstacles.clear(); // Xóa tất cả chướng ngại vật cũ
-        // Tạo một số lượng chướng ngại vật ban đầu
-        int initialObstacles = 5; // Hoặc số lượng khác tùy ý
+        obstacles.clear();
+        int initialObstacles = 5;
         for (int i = 0; i < initialObstacles; i++) {
             obstacles.add(createSafeObstacle());
         }
@@ -80,14 +74,12 @@ public class Track {
 
     //Moves all obstacles downward by a fixed amount each tick.
     public void moveObstacles() {
-        // Di chuyển tất cả chướng ngại vật xuống
         for (int i = obstacles.size() - 1; i >= 0; i--) {
             Obstacle obs = obstacles.get(i);
-            obs.moveDown(5); // Tốc độ di chuyển
-            // Nếu chướng ngại vật đã ra khỏi màn hình
+            obs.moveDown(5);
             if (obs.getY() > gameHeight) {
-                obstacles.remove(i); // Xóa chướng ngại vật
-                addNewObstacle(); // Thêm chướng ngại vật mới
+                obstacles.remove(i);
+                addNewObstacle();
             }
         }
     }
